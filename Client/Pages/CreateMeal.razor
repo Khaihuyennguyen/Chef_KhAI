@@ -27,6 +27,26 @@
 						<InputText placeholder="Add ingredient" maxlength="30" @bind-Value="meal.ingredient" class="form-control mb-2">
 
 						</InputText>
+						<div class="col-12">
+							<button class="btn btn-outline-success">Add</button>
+							<button class="btn btn-outline-danger">Add</button>
+						</div>
+						<div class="col-12 mt-3">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>
+												Ingredients
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</EditForm>
@@ -37,6 +57,7 @@
 @code {
 	private EditContext? editcontext;
 	private Meal meal = new();
+	private List<Ingredient> indgredients = new List<Ingredient>();
 
 	protected override void OnInitialized()
 	{
@@ -47,4 +68,6 @@
 		public string? mealtime{ get; set;  }
 		public string? ingredient { get; set; }
 	}
+
+
 }
