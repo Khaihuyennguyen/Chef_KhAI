@@ -29,7 +29,7 @@
 						</InputText>
 						<div class="col-12">
 							<button class="btn btn-outline-success">Add</button>
-							<button class="btn btn-outline-danger">Add</button>
+							<button class="btn btn-outline-danger">Clear</button>
 						</div>
 						<div class="col-12 mt-3">
 							<div class="table-responsive">
@@ -42,11 +42,24 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										@foreach (var item in ingredients)
+										{
+											<tr>
+												<td>
+													@item.Description
+												</td>
+												<td class="text-end pe-3">
+													<button class="btn btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+												</td>
+											</tr>
+										}
 									</tbody>
 								</table>
 							</div>
 						</div>
+					</div>
+					<div class="col-12">
+						<button class="btn btn-success rounded">Generate</button>
 					</div>
 				</div>
 			</EditForm>
