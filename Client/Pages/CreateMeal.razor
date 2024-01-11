@@ -1,0 +1,44 @@
+﻿@page "/createmeal"
+@using Chef_KhAI.Shared
+@using Microsoft.AspNetCore.Components.Forms;
+@using System.ComponentModel.DataAnnotations;
+
+
+<PageTitle>Chef Khai - Create meal</PageTitle>
+
+<div class="container mt-5">
+	<div class="col">
+		<h1>Choose your ingredients</h1>
+		<EditForm EditContext="@editcontext">
+			<div class="row gy-2">
+				<div class="="col-12">
+					<label class="form-label">Meal Time:</label>
+					<InputSelect @bind-Value=  "meal.mealtime" class="form-select">
+						<option value="Breakfast">Breakfast</option>
+						<option value="Lunch">Lunch</option>
+						<option value="Dinner">Dinner</option>
+						<option value="Dessert">Dessert</option>
+		
+					</InputSelect>
+				</div>
+				<div class="=" col-12">
+				</div>
+			</div>"
+		</EditForm>
+	</div>
+</div>
+
+@code {
+	private EditContext? editcontext
+	private Meal meal = new();
+
+	private override void onInitialized()
+	{
+		editcontext = new(meal);
+	}
+
+	private class Meal {
+		public string? mealtime{ get; set;  }
+		public string? ingredient { get; set; }
+	}
+}

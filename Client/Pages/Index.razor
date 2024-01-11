@@ -1,9 +1,26 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@layout LandingPageLayout
+<PageTitle>Chef Khai - Create your next meal</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="page">
+	<div class="pagestyle">
+		<nav class="row align-items-center p-2">
+			<div class="col text-end me-3">
+				<a href="https://www.khai.one/" target="_blank">About</a>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+			</div>
+		</nav>
+		<main class="landingPage">
+			<div class ="text-center">
+				<img src="images/AiChefLogoLight.png" height="300"/>
+			</div>
+			<div class="text-center mt-5">
+				<a href="./createmeal" class="btn btn-success btn-lg">Let's cook</a>
+			</div>
+		</main>
+		<footer class="text-center p-2">
+			&copy; Khai Nguyen
+		</footer>
+	</div>
+</div>
