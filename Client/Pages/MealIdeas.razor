@@ -1,5 +1,8 @@
 ﻿@page "/mealIdeas"
 @using Chef_KhAI.Shared
+@inject NavigationManager navigationManager;
+
+
 
 @if (loaded==true)
 {
@@ -23,11 +26,30 @@
 
 else {
 	<div class="container">
-		<p>Loading .... </p>
+		<H3> RecipeState Values </H3>
+		<p>@rState.MealTime</p>
+		@foreach (var item in rState.Ingredients)
+		{
+			<p>@item.Description</p>
+		}
 	</div>
 }
 
 @code {
 	private List<Idea> ideas = new List<Idea>();
 	private bool loaded = false;
+
+
+	[CascadingParameter]
+	private RecipeState rState { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (rState is null)
+		{
+			navigationManager.NavigateTo("/", forceLoad: true);
+		}
+
+
+	}
 }
