@@ -178,7 +178,7 @@ namespace Chef_KhAI.Server.Services
 													.FunctionCall;
 			Result<List<Idea>> ideasResult = new();
 
-			if (functionResponse.Arguments is not null)
+			if (functionResponse?.Arguments is not null)
 				try
 				{
 					ideasResult = JsonSerializer.Deserialize<Result<List<Idea>>>(functionResponse.Arguments, _jsonOptions);
@@ -200,3 +200,4 @@ namespace Chef_KhAI.Server.Services
 		}
 	}
 }
+

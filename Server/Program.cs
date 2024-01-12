@@ -1,3 +1,4 @@
+using Chef_KhAI.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 
 namespace Chef_KhAI
@@ -12,7 +13,7 @@ namespace Chef_KhAI
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-
+            builder.Services.AddScoped<IOpenAIAPI, OpenAIService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
