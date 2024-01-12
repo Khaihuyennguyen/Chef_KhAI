@@ -26,12 +26,7 @@
 
 else {
 	<div class="container">
-		<H3> RecipeState Values </H3>
-		<p>@rState.MealTime</p>
-		@foreach (var item in rState.Ingredients)
-		{
-			<p>@item.Description</p>
-		}
+	<p>Loading</p>
 	</div>
 }
 
@@ -50,6 +45,20 @@ else {
 			navigationManager.NavigateTo("/", forceLoad: true);
 		}
 
+		if (rState.Ideas.Count < 1)
+		{
+			GetIdeas();
+		}
+		else
+		{
+			loaded = true;
+			ideas = rState.Ideas;
+			StateHasChanged();
+		}
 
+	}
+	private async void GetIdeas()
+	{
+	 // Call web api controller
 	}
 }
