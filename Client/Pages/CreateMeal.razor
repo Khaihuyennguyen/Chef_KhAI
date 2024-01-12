@@ -2,7 +2,7 @@
 @using Chef_KhAI.Shared
 @using Microsoft.AspNetCore.Components.Forms;
 @using System.ComponentModel.DataAnnotations;
-
+@inject NavigationManager navigationManager
 
 <PageTitle>Chef Khai - Create meal</PageTitle>
 
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 					<div class="col-12">
-						<button class="btn btn-success rounded">Generate</button>
+						<button class="btn btn-success rounded" @onclick="HandleSubmit">Generate</button>
 					</div>
 				</div>
 			</EditForm>
@@ -68,13 +68,26 @@
 </div>
 
 @code {
+
+	[CascadingParameter]
+	private RecipeState? rState { get; set; }
+
+
 	private EditContext? editcontext;
 	private Meal meal = new();
 	private List<Ingredient> ingredients = new List<Ingredient>();
 
 	protected override void OnInitialized()
 	{
+		if (rState is null)
+		{
+			navigationManager.NavigateTo("/", forceLoad: true);
+			return;
+		}
 		editcontext = new(meal);
+
+		meal.mealtime = rState.MealTime;
+		ingredients = rState.Ingredients;
 	}
 
 	private class Meal {
@@ -105,5 +118,12 @@
 	private void RemoveIngredient(Guid id)
 	{
 		ingredients.Remove(ingredients.First(x => x.Id == id));
+	}
+
+	private void HandleSubmit()
+	{
+		rState.MealTime = meal.mealtime;
+		rState.Ingredients = ingredients;
+		navigationManager.NavigateTo("/mealIdeas");
 	}
 }
