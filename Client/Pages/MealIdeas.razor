@@ -1,7 +1,8 @@
 ﻿@page "/mealIdeas"
 @using Chef_KhAI.Shared
+@using System.Text.Json
 @inject NavigationManager navigationManager;
-
+@inject HttpClient Http;
 
 
 @if (loaded==true)
@@ -38,6 +39,11 @@ else {
 	[CascadingParameter]
 	private RecipeState rState { get; set; }
 
+	private readonly JsonSerializerOptions _jsonOptions = new ()
+	{
+		
+	}
+
 	protected override void OnInitialized()
 	{
 		if (rState is null)
@@ -59,6 +65,26 @@ else {
 	}
 	private async void GetIdeas()
 	{
-	 // Call web api controller
+
+		string baseuri = "Recipe/GetRecipeIdeas";
+		loaded = false;
+
+
+		RecipeParms recipeParms = new RecipeParms()
+			{
+				MealTime = rState.MealTime,
+				Ingredients = rState.Ingredients
+			};
+		// Call web api controller
+		try
+		{
+			HttpResponseMessage response  = await Http.PostAsJsonAsync(baseuri, recipeParms, )
+
+		}
+
+		catch
+		{
+			
+		}
 	}
 }

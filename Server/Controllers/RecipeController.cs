@@ -10,7 +10,7 @@ namespace Chef_KhAI.Server.Controllers
 	public class RecipeController : ControllerBase
 	{
 		[HttpPost, Route("GetRecipeIdeas")]
-		public async Task<ActionResult<List<Idea>>> GetRecipeIdeas()
+		public async Task<ActionResult<List<Idea>>> GetRecipeIdeas(RecipeParms recipeParms)
 		{
 			return SampleData.RecipeIdeas;
 		}
