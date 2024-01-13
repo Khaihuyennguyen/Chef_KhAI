@@ -5,6 +5,7 @@ using Chef_KhAI.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace Chef_KhAI.Server.Controllers
 {
 	[Route("[controller]")]
@@ -41,12 +42,27 @@ namespace Chef_KhAI.Server.Controllers
 
 		public async Task<ActionResult<Recipe?>> GetRecipe(RecipeParms recipeParms)
 		{
-			return SampleData.Recipe;
+			// return SampleData.Recipe;
+			List<string> ingredients = recipeParms.Ingredients
+												  .Where  (x => !string.IsNullOrEmpty(x.Description))
+												  .Select(x => x.Description!)
+												  .ToList();
+
+			string? title = recipeParms.SelectedIdea;
+			if (string.IsNullOrEmpty(title))
+			{
+				return BadRequest(0);
+			}
+
+			var recipe = await _openAIservice.CreateRecipe(title, ingredients);
+			return recipe;
 		}
 		[HttpGet, Route("GetRecipeImage")]
 		public async Task<RecipeImage> GetRecipeImage(string title)
 		{
-			return SampleData.RecipeImage;
+			//return SampleData.RecipeImage;
+			var recipeImage = await _openAIservice.CreateRecipeImage(title);
+			return recipeImage ?? SampleData.RecipeImage;
 		}
 	}
 }

@@ -89,7 +89,7 @@ else
 			//Get the recipe image
 			HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/GetRecipeImage?title={HttpUtility.UrlEncode(title)}");
 			var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
-			recipeImageURL = recipeImage!.data[0].url;
+			recipeImageURL = recipeImage!.data[0]!.url;
 			// Get the recipe
 
 			HttpResponseMessage responseRecipe = await Http.PostAsJsonAsync(baseuri, recipeParms);

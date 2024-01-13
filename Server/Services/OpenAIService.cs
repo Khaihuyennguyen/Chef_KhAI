@@ -206,13 +206,13 @@ namespace Chef_KhAI.Server.Services
 		}
 		public async Task<Recipe?> CreateRecipe(string title, List<string> ingrediants)
 		{
-			string url = $""{ _baseUrl}"chat/completions";
-			string systemPrompt = "\"You are a world-renowned chef. Create the recipe with ingredients, instructions and a summary";
+			string url = $"{ _baseUrl}chat/completions";
+			string systemPrompt = "You are a world-renowned chef. Create the recipe with ingredients, instructions and a summary";
 			string userPrompt = $"Create a {title} recipe.";
 
 			ChatMessage userMessage = new()
 			{
-				Role = "User",
+				Role = "user",
 				Content = $"{systemPrompt} {userPrompt}"
 			};
 
@@ -220,6 +220,7 @@ namespace Chef_KhAI.Server.Services
 			{
 				Model = "gpt-3.5-turbo-0613",
 				Messages = new[] { userMessage },
+				Functions = new[] {_recipeFunction},
 				FunctionCall = new { Name = _recipeFunction.Name }
 
 			};
@@ -251,6 +252,34 @@ namespace Chef_KhAI.Server.Services
 			}
 
 			return recipe?.Data;
+		}
+
+		public async Task<RecipeImage?> CreateRecipeImage(string recipeTitle)
+		{
+			string url = $"{_baseUrl}images/generations";
+			string userPrompt = "";
+
+			userPrompt = $"Create a restaurant product shot for {recipeTitle}";
+
+			ImageGenerationRequest request = new()
+			{
+				Prompt = userPrompt
+			};
+
+			HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
+
+			RecipeImage? recipeImage = null;
+
+			try
+			{
+				recipeImage = await httpResponse.Content.ReadFromJsonAsync<RecipeImage>();
+
+			}
+			catch
+			{
+				Console.WriteLine("Error: Could not retrieve image");
+			}
+			return recipeImage;
 		}
 	}
 }
