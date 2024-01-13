@@ -1,11 +1,12 @@
 ﻿@page "/mealRecipe/{Index:int}"
 
-@using Chef_KhAI.Shared
-@using System.Text.Json
-@using System.Web
+@using Chef_KhAI.Shared;
+@using System.Text.Json;
+@using System.Web;
 
-@inject HttpClient Http
-@inject NavigationManager Navigation
+@inject HttpClient Http;
+@inject NavigationManager Navigation;
+@inject IJSRuntime Js;
 
 @if (loaded == true)
 {
@@ -17,6 +18,9 @@
 			<div class="flex-grow-1 px-3">
 				<h1 class="fw-bold">@recipe.title</h1>
 				<p>@recipe.summary</p>
+				<div class="text-end">
+					<button class="btn btn-success d-print-none" @onclick="Print">Print</button>
+				</div>
 
 			</div>
 		</div>
@@ -44,9 +48,7 @@
 }
 else
 {
-	<div class="contain">
-		<p>Loadings...</p>
-	</div>
+	<ChefSpinner></ChefSpinner>
 }
 
 
@@ -111,6 +113,13 @@ else
 		{
 			Console.WriteLine("Error: Could not generate the recipt!!!");
 		}
-	
+
 	}
+
+	private async Task Print()
+	{
+		await Js.InvokeVoidAsync("printInvoke");
+	}
+
+
 }
