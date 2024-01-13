@@ -69,18 +69,18 @@ namespace Chef_KhAI.Server.Services
 
 		public OpenAIService(IConfiguration configuration)
 		{
+
 			_configuration = configuration;
-			var apiKey = _configuration["OpenAI:OpenAiKey"] ?? Environment.GetEnvironmentVariable("OpenAiKey");
+			var apiKey = _configuration["OpenAi:OpenAiKey"] ?? Environment.GetEnvironmentVariable("OpenAiKey");
 
 			_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			_httpClient.DefaultRequestHeaders.Authorization = new("Bearer", apiKey);
-
 
 			_jsonOptions = new()
 			{
 				PropertyNameCaseInsensitive = true,
 				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+				DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
 			};
 		}
 
@@ -134,7 +134,7 @@ namespace Chef_KhAI.Server.Services
 		public async Task<List<Idea>> CreateRecipeIdeas(string mealtime, List<string> ingrediantList)
 		{
 			string url = $"{_baseUrl}chat/completions";
-			string systemPrompt = "You are a world-renowned chef. I will send you a list of indgredients and a meal time. You will response with 5 ideas for dishes."
+			string systemPrompt = "You are a world-renowned chef. I will send you a list of indgredients and a meal time. You will response with 5 ideas for dishes.";
 			string userPrompt = "";
 			string ingredientPrompt = "";
 
@@ -173,7 +173,7 @@ namespace Chef_KhAI.Server.Services
 
 			HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
 
-			ChatResponse? response = await httpResponse.Content.ReadAsStringAsync<ChatResponse>();
+			ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse>();
 
 			//Get the first message in the function c all
 			ChatFunctionResponse? functionResponse = response.Choices?
