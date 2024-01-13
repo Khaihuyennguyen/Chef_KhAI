@@ -1,4 +1,5 @@
-﻿using AiChef.Server.Data;
+﻿using Chef_KhAI.Server.Data;
+using Chef_KhAI.Server.Data;
 using Chef_KhAI.Server.Services;
 using Chef_KhAI.Shared;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,18 @@ namespace Chef_KhAI.Server.Controllers
 			var ideas = await _openAIservice.CreateRecipeIdeas(mealtime, ingredients);
 			return ideas;
 			//return SampleData.RecipeIdeas;
+		}
+
+		[HttpPost, Route("GetRecipe")]
+
+		public async Task<ActionResult<Recipe?>> GetRecipe(RecipeParms recipeParms)
+		{
+			return SampleData.Recipe;
+		}
+		[HttpGet, Route("GetRecipeImage")]
+		public async Task<RecipeImage> GetRecipeImage(string title)
+		{
+			return SampleData.RecipeImage;
 		}
 	}
 }
