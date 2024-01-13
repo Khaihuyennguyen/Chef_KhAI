@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
+using System.IO.Enumeration;
 
 namespace Chef_KhAI.Server.Services
 {
@@ -128,7 +129,9 @@ namespace Chef_KhAI.Server.Services
 				},
 			}
 		};
-		public async Task<List<Idea>> CreateRecipeIdeas(string mealtime, List<string> ingrediants)
+
+
+		public async Task<List<Idea>> CreateRecipeIdeas(string mealtime, List<string> ingrediantList)
 		{
 			string url = $"{_baseUrl}chat/completions";
 			string systemPrompt = "You are a world-renowned chef. I will send you a list of indgredients and a meal time. You will response with 5 ideas for dishes."
@@ -136,9 +139,10 @@ namespace Chef_KhAI.Server.Services
 			string ingredientPrompt = "";
 
 			string ingredients = string.Join(",", ingrediantList);
+
 			if (string.IsNullOrEmpty(ingredients))
 			{
-				ingredientPrompt = "Suggesst some ingredients for me";
+				ingredientPrompt = "Suggest some ingredients for me";
 
 			}
 			else
@@ -158,27 +162,29 @@ namespace Chef_KhAI.Server.Services
 				Role = "user",
 				Content = $"{userPrompt}"
 			};
+
 			ChatRequest request = new()
 			{
 				Model = "gpt-3.5-turbo-0613",
-				Messages = new[] { systemPrompt, userMessage },
+				Messages = new[] { systemMessage, userMessage },
 				Functions = new[] { _ideaFunction },
 				FunctionCall = new { Name = _ideaFunction.Name }
-
-
 			};
+
 			HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
 
 			ChatResponse? response = await httpResponse.Content.ReadAsStringAsync<ChatResponse>();
 
-			//Get the first message in the function
+			//Get the first message in the function c all
 			ChatFunctionResponse? functionResponse = response.Choices?
 													.FirstOrDefault(m => m.Message?.FunctionCall is not null)?
 													.Message?
 													.FunctionCall;
+
 			Result<List<Idea>> ideasResult = new();
 
 			if (functionResponse?.Arguments is not null)
+				{ 
 				try
 				{
 					ideasResult = JsonSerializer.Deserialize<Result<List<Idea>>>(functionResponse.Arguments, _jsonOptions);
@@ -193,10 +199,10 @@ namespace Chef_KhAI.Server.Services
 					};
 				}
 
-		}
+			}
 			
-			return ideasResult?.Data ?? new List<Idea>();
-
+			return  ideasResult?.Data ?? new List<Idea>();
+			//return systemPrompt= "You are a world-renowned chefl. I will send you a list of ingredients and a meal time. You will response with 5 ideas for dishes.";
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization
+using System.Text.Json.Serialization;
 
 namespace Chef_KhAI.Server.ChatEndPoint
 {
@@ -340,3 +340,4 @@ namespace Chef_KhAI.Server.ChatEndPoint
 	}
 
 }
+
