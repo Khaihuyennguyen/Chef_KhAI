@@ -204,6 +204,54 @@ namespace Chef_KhAI.Server.Services
 			return  ideasResult?.Data ?? new List<Idea>();
 			//return systemPrompt= "You are a world-renowned chefl. I will send you a list of ingredients and a meal time. You will response with 5 ideas for dishes.";
 		}
+		public async Task<Recipe?> CreateRecipe(string title, List<string> ingrediants)
+		{
+			string url = $""{ _baseUrl}"chat/completions";
+			string systemPrompt = "\"You are a world-renowned chef. Create the recipe with ingredients, instructions and a summary";
+			string userPrompt = $"Create a {title} recipe.";
+
+			ChatMessage userMessage = new()
+			{
+				Role = "User",
+				Content = $"{systemPrompt} {userPrompt}"
+			};
+
+			ChatRequest request = new()
+			{
+				Model = "gpt-3.5-turbo-0613",
+				Messages = new[] { userMessage },
+				FunctionCall = new { Name = _recipeFunction.Name }
+
+			};
+			HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
+
+			ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse?>();
+
+			ChatFunctionResponse? functionResponse = response.Choices
+															 .FirstOrDefault(m => m.Message?.FunctionCall is not null)
+															 .Message?
+															 .FunctionCall;
+			Result<Recipe>? recipe = new();
+
+			if (functionResponse?.Arguments is not null)
+			{
+				try
+				{
+					recipe = JsonSerializer.Deserialize<Result<Recipe>>(functionResponse.Arguments, _jsonOptions);
+
+				}
+				catch(Exception ex)
+				{
+					recipe = new()
+					{
+						Exception = ex,
+						ErrorMessage = await httpResponse.Content.ReadAsStringAsync()
+					};
+				}
+			}
+
+			return recipe?.Data;
+		}
 	}
 }
 
