@@ -1,5 +1,6 @@
 ﻿.page {
-    background-image: url(images/AIChefBG2.jpg);
+    /*background-image: url(images/circle.svg);*/
+    background-color: #F2E3D0;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -14,15 +15,18 @@
 .pagestyle{
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(5px) brightness(50%);
+    backdrop-filter: blur(5px) brightness(100%);
     height: 100%;
 }
 
 main {
     flex: 1 0 auto;
+
 }
-footer{
+footer {
     flex-shrink: 0;
+    text-decoration-color: black;
+    color: #BF4141;
 }
 
 .landingPage{
@@ -33,14 +37,13 @@ footer{
 }
 
 a {
-    color: var(--bs-light);
+    color: #BF4141;
     text-decoration: none;
-
 }
 
-a:visited{
-    color: var(--bs-light);
-}
+    a:visited {
+        color: #BF4141;
+    }
 
 a:hover{
     cursor: pointer;
