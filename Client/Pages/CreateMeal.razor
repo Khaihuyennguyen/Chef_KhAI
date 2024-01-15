@@ -24,11 +24,11 @@
 					</div>
 					<div class= "col-12">
 						<label class="form-label">Ingredient</label>
-						<InputText placeholder="Add ingredient" maxlength="30" @bind-Value="meal.ingredient" class="form-control mb-2">
+						<InputText placeholder="Add ingredients you currently have, or you are interested in making!" maxlength="30" @bind-Value="meal.ingredient" class="form-control mb-2">
 
 						</InputText>
 						<div class="col-12">
-							<button class="btn btn-outline-success" @onclick="AddIngredient">Add</button>
+							<button class="btn btn-outline-dark" @onclick="AddIngredient">Add</button>
 							<button class="btn btn-outline-danger" @onclick="RemoveAll">Clear</button>
 						</div>
 						<div class="col-12 mt-3">
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 					<div class="col-12">
-						<button class="btn btn-success rounded" @onclick="HandleSubmit">Generate</button>
+						<button class="btn btn-dark rounded" @onclick="HandleSubmit">Generate</button>
 					</div>
 				</div>
 			</EditForm>

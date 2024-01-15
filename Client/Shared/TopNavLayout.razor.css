@@ -6,6 +6,6 @@
 
 footer {
     flex-shrink: 0;
-    background-color: var(--bs-success-bg-subtle);
-
+    text-decoration-color: black;
+    color: #BF4141;
 }

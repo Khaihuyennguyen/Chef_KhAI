@@ -10,11 +10,11 @@
 
 
 	<div class="container">
-		<h3 class="mt-5">Pick one</h3>
+		<h3 class="mt-5">Meals Ideas</h3>
 		<div class="list-group">
 			@foreach (var idea in ideas)
 			{
-				<button @onclick="() => GetRecipe(idea.index)" class="list-group-item list-group-item-action list-group-item-success p-2">
+				<button @onclick="() => GetRecipe(idea.index)" class="list-group-item list-group-item-action list-group-item-light p-2">
 					<div class="d-flex w-100 justify-content-sm-between">
 						<h2 class="mb-1 fw-bold">@idea.title</h2>
 					</div>
